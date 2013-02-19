@@ -57,6 +57,12 @@ class Board(object):
 				self.matrix[y] = self.matrix[y - 1]
 		self.matrix[0] = [0 for i in range(self.columns)]
 
+	def getLineSum(self, line):
+		sum = 0
+		for i in self.matrix[line]:
+			sum += i
+		return sum
+
 
 	def getCompleteLines(self):
 		complete = []

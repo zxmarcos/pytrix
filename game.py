@@ -22,6 +22,7 @@ class Game(object):
 		self.board = Board(h // self.block_size, w // self.block_size)
 		self.size = (400, h)
 		# cria nossa janela
+		pygame.display.set_caption('Pytrix')
 		self.screen = pygame.display.set_mode(self.size)
 		self.board_surface = pygame.Surface((w, h))
 		self.next_surface = pygame.Surface((self.block_size * 4, self.block_size * 3))
@@ -34,6 +35,8 @@ class Game(object):
 		self.grid_color = (10, 30, 10)
 		self.serial_color = 1
 
+		self.score = 0
+
 		self.hold_left = False
 		self.hold_right = False
 		self.hold_down = False
@@ -45,6 +48,8 @@ class Game(object):
 		self.screen.blit(self.next_ren, (5,5))
 		self.hold_ren = self.font.render('Reserva', 1, self.fg_color)
 		self.screen.blit(self.hold_ren, (5,100))
+		self.score_ren = self.font.render('Pontos', 1, self.fg_color)
+		self.screen.blit(self.score_ren, (5,200))
 
 		# cores dos blocos
 		self.colors = [(0,0,0),
@@ -156,6 +161,7 @@ class Game(object):
 				self.board.clear()
 			l = self.board.getCompleteLines()
 			for i in l:
+				self.score += self.board.getLineSum(i)
 				self.board.clearLine(i)
 
 			pygame.display.flip()
@@ -305,6 +311,8 @@ class Game(object):
 		self.screen.blit(self.next_surface, (10,40))
 		self.screen.blit(self.hold_surface, (10,140))
 		self.screen.blit(self.board_surface, (100,0))
+		s = self.font.render('%d' % self.score, 1, self.fg_color, self.bg_color)
+		self.screen.blit(s, (5,230))
 
 def main():
 	game = Game()
